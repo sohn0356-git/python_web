@@ -17,6 +17,11 @@
             </div>
             <div class="row mt-5">
                 <div class="col-12">
+                    {{error}}
+                </div>
+            </div>
+            <div class="row mt-5">
+                <div class="col-12">
                     <form method="POST" action=".">
                         {% csrf_token %}
                         <div class="form-group">
