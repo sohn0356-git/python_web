@@ -4,6 +4,6 @@ from .models import Fcuser
 # Register your models here.
 
 class FcuserAdmin(admin.ModelAdmin):
-    list_display = ('username','password')      #field들이 listing됨
+    list_display = ('username','password','useremail')      #field들이 listing됨
 
 admin.site.register(Fcuser,FcuserAdmin)
