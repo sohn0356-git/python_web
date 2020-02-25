@@ -1,4 +1,4 @@
 {
     "git.ignoreLimitWarning": true,
-    "python.pythonPath": "fc_env\\Scripts\\python.exe"
+    "python.pythonPath": "env_test\\Scripts\\python.exe"
 }
