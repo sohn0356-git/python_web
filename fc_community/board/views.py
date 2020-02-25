@@ -4,6 +4,7 @@ from .forms import BoardForm
 from .models import Board
 from django.core.paginator import Paginator
 from fcuser.models import Fcuser
+from tag.models import Tag
 
 # Create your views here.
 
@@ -21,6 +22,7 @@ def board_write(request):
     if request.method=='POST':
         form = BoardForm(request.POST)
         if form.is_valid():
+            
             user_id = request.session.get('user')
             fcuser = Fcuser.objects.get(pk=user_id)
 
@@ -30,6 +32,13 @@ def board_write(request):
             board.writer = fcuser
             board.save()
 
+            tags = form.cleaned_data['tags'].split(',')
+            for tag in tags:
+                if not tag:
+                    continue
+                _tag, _ = Tag.objects.get_or_create(name=tag)
+                board.tags.add(_tag)            
+            
             return redirect('/board/list/')
     else:
         form = BoardForm()
