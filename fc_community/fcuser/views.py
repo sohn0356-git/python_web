@@ -28,8 +28,18 @@ def register(request):
 
         return render(request,'register.html',res_data)
 
+
+        
+
 def login(request):
-    form = LoginForm()
+    if request.method == "POST":
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            request.session['user'] = form.user_id
+            return redirect('/')
+
+    else:
+        form = LoginForm()
     return render(request,'login.html', {'form':form})
 
 def logout(request):
