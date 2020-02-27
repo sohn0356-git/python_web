@@ -9,7 +9,8 @@
         </div>
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
-                <form method="POST" action = "/order/create">
+                <form method="POST" action = "/order/create/">
+                    {% csrf_token %}
                     {% for field in form %}
             <div class = "form-group">
                 {% ifnotequal field.name 'fcproduct' %}
