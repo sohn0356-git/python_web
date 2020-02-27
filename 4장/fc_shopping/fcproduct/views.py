@@ -3,6 +3,7 @@ from django.views.generic import ListView, DetailView
 from django.views.generic.edit import FormView
 from .models import Fcproduct
 from .forms import RegisterForm
+from fcorder.forms import RegisterForm as OrderForm
 # Create your views here.
 
 class ProductList(ListView):
@@ -20,3 +21,7 @@ class ProductDetail(DetailView):
     template_name = 'product_detail.html'
     queryset = Fcproduct.objects.all()
     context_object_name = 'product'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = OrderForm()
+        return context
