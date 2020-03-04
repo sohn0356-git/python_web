@@ -3,6 +3,7 @@ from .models import Fcorder
 from fcproduct.models import Fcproduct
 from fcuser.models import Fcuser
 from django.contrib.auth.hashers import check_password, make_password
+from django.db import transaction
 
 class RegisterForm(forms.Form):
 
@@ -29,12 +30,20 @@ class RegisterForm(forms.Form):
         print(self.request.session)
         fcuser = self.request.session.get('user')
         if quantity and fcproduct and fcuser:
-            fcorder = Fcorder(quantity=quantity,fcproduct=Fcproduct.objects.get(pk=fcproduct),
-            fcuser = Fcuser.objects.get(useremail=fcuser)
-            )
-            fcorder.save()
+            prod = Fcproduct.objects.get(pk=fcproduct)
+            if prod.stock >= quantity:
+                with transaction.atomic():
+                    fcorder = Fcorder(quantity=quantity,fcproduct = prod,
+                    fcuser = Fcuser.objects.get(useremail=fcuser)
+                    )
+                    fcorder.save()
+                    prod.stock -= quantity
+                    prod.save()
+            else:
+                self.add_error('quantity', '재고보다 많은 양을 입력하였습니다')
+                self.fcproduct = fcproduct    
         else:
-            self.product = fcproduct
+            self.fcproduct = fcproduct
             self.add_error('quantity', '값이 없습니다')
             self.add_error('fcproduct', '값이 없습니다')
         

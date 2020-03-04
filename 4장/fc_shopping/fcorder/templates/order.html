@@ -8,18 +8,18 @@
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">상품명</th>
-                    <th scope="col">가격</th>
-                    <th scope="col">등록날짜</th>
+                    <th scope="col">수량</th>
+                    <th scope="col">주문날짜</th>
                 </tr>
             </thead>
             <tbody class="text-dark">
-                {% for product in product_list %}
+                {% for order in order_list %}
                 <tr>
-                    <th scope="row">{{ product.id }}</th>
-                    <th><a href="/product/{{ product.id }}">{{ product.name }}</a></th>
-                    <th>{{ product.price|intcomma }}원</th>
-                    <th>{{ product.register_dttm|date:'Y-m-d H:i' }}</th>
-                </tr>                
+                    <th scope="row">{{ order.id }}</th>
+                    <th>{{ order.fcproduct }}</th>
+                    <th>{{ order.quantity|intcomma }}개</th>
+                    <th>{{ order.register_dttm|date:'Y-m-d' }}</th>
+                </tr>
                 {% endfor %}
             </tbody>
         </table>
