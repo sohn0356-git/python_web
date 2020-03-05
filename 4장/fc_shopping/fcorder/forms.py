@@ -31,7 +31,7 @@ class RegisterForm(forms.Form):
         fcuser = self.request.session.get('user')
         if quantity and fcproduct and fcuser:
             prod = Fcproduct.objects.get(pk=fcproduct)
-            if prod.stock >= quantity:
+            if prod.stock >= quantity and quantity > 0:
                 with transaction.atomic():
                     fcorder = Fcorder(quantity=quantity,fcproduct = prod,
                     fcuser = Fcuser.objects.get(useremail=fcuser)
