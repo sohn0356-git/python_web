@@ -31,10 +31,7 @@ class RegisterForm(forms.Form):
             if password != re_password:
                 self.add_error('password', "비밀번호가 서로 다릅니다")
                 self.add_error('re_password', "비밀번호가 서로 다릅니다")
-            else:
-                fcuser = Fcuser(useremail=useremail, password=make_password(password))
-                fcuser.save()
-    
+            
 
 class LoginForm(forms.Form):
     useremail = forms.EmailField(
@@ -62,5 +59,3 @@ class LoginForm(forms.Form):
                 return
             if not check_password(password, fcuser.password):
                 self.add_error('password', "비밀번호가 틀렸습니다")
-            else:
-                self.useremail = fcuser.useremail

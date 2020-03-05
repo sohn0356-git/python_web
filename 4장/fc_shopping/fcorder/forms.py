@@ -31,17 +31,8 @@ class RegisterForm(forms.Form):
         fcuser = self.request.session.get('user')
         if quantity and fcproduct and fcuser:
             prod = Fcproduct.objects.get(pk=fcproduct)
-            if prod.stock >= quantity and quantity > 0:
-                with transaction.atomic():
-                    fcorder = Fcorder(quantity=quantity,fcproduct = prod,
-                    fcuser = Fcuser.objects.get(useremail=fcuser)
-                    )
-                    fcorder.save()
-                    prod.stock -= quantity
-                    prod.save()
-            else:
-                self.add_error('quantity', '재고보다 많은 양을 입력하였습니다')
-                self.fcproduct = fcproduct    
+            if not (prod.stock >= quantity and quantity > 0):
+                self.add_error('quantity', '재고보다 많은 양을 입력하였습니다') 
         else:
             self.fcproduct = fcproduct
             self.add_error('quantity', '값이 없습니다')

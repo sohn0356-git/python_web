@@ -31,8 +31,3 @@ class RegisterForm(forms.Form):
         description = cleaned_data.get('description')
         stock = cleaned_data.get('stock')
 
-        if name and price and description and stock:
-            fcproduct = Fcproduct(name=name, price=price,description=description
-            , stock=stock)
-            fcproduct.save()
-    
