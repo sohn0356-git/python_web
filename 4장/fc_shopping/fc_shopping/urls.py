@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from fcuser.views import index, RegisterView, LoginView, logout
-from fcproduct.views import ProductList, ProductCreate, ProductDetail
+from fcproduct.views import ProductList, ProductCreate, ProductDetail, FcproductListAPI, FcproductDetailAPI
 from fcorder.views import OrderCreate, OrderList
 
 urlpatterns = [
@@ -29,5 +29,7 @@ urlpatterns = [
     path('product/<int:pk>/', ProductDetail.as_view()),
     path('order/',OrderList.as_view()),
     path('order/create/',OrderCreate.as_view()),    
-    path('logout/',logout)
+    path('logout/',logout),
+    path('api/product/',FcproductListAPI.as_view()),
+    path('api/product/<int:pk>',FcproductDetailAPI.as_view()),
 ]

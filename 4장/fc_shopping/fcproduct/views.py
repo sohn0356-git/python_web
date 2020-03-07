@@ -2,9 +2,12 @@ from django.shortcuts import render
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import FormView
 from .models import Fcproduct
+from rest_framework import generics
+from rest_framework import mixins
 from fcuser.decorator import login_required, admin_required
 from django.utils.decorators import method_decorator
 from .forms import RegisterForm
+from .serializers import FcproductSerializer
 from fcorder.forms import RegisterForm as OrderForm
 # Create your views here.
 
@@ -34,3 +37,20 @@ class ProductDetail(DetailView):
         context = super().get_context_data(**kwargs)
         context['form'] = OrderForm(self.request)
         return context
+
+class FcproductListAPI(generics.GenericAPIView, mixins.ListModelMixin):
+    serializer_class = FcproductSerializer
+
+    def get_queryset(self):
+        return Fcproduct.objects.all().order_by('id')
+    def get(self,request,*args,**kwargs):
+        return self.list(request, *args, **kwargs)
+
+class FcproductDetailAPI(generics.GenericAPIView, mixins.RetrieveModelMixin):
+    serializer_class = FcproductSerializer
+
+    def get_queryset(self):
+        return Fcproduct.objects.all().order_by('id')
+        
+    def get(self,request,*args,**kwargs):
+        return self.retrieve(request, *args, **kwargs)
